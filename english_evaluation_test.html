@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Family - Premium B1 Examination Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f3ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+              950: '#0f0e26',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: radial-gradient(circle at top right, #1e1b4b 0%, #0f172a 50%, #090d16 100%);
+      background-attachment: fixed;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-nav {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-indigo {
+      box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.3);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.6);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #4f46e5;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-200 flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP HEADER & BRAND SHIELD BANNER -->
+  <header class="relative z-20 border-b border-slate-800/80 bg-slate-950/40 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+        
+        <!-- Brand Emblem -->
+        <div class="flex items-center gap-4">
+          <div class="relative flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-600 to-emerald-500 p-0.5 glow-indigo">
+            <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+              <svg class="w-8 h-8 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 text-[10px] font-extrabold uppercase tracking-widest bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">B1 Proficiency</span>
+              <span class="text-xs text-slate-400">Examination Hub</span>
+            </div>
+            <h1 class="text-2xl font-black tracking-tight text-white mt-0.5">English Family</h1>
+          </div>
+        </div>
+
+        <!-- Student Metadata Inputs -->
+        <div class="glass-card p-3.5 rounded-2xl flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+          <div class="w-full sm:w-60">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Student Full Name *</label>
+            <input type="text" id="studentName" placeholder="e.g. Alex Morgan" oninput="updateProgress()"
+              class="w-full px-3 py-2 text-sm rounded-xl bg-slate-900/80 text-white border border-slate-700/80 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition placeholder-slate-500">
+          </div>
+          <div class="w-full sm:w-40">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1">Exam Date</label>
+            <input type="date" id="testDate" 
+              class="w-full px-3 py-2 text-sm rounded-xl bg-slate-900/80 text-white border border-slate-700/80 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Animated Progress Tracker -->
+      <div class="mt-6">
+        <div class="flex justify-between items-center text-xs font-bold mb-2">
+          <span class="text-indigo-300 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span>
+            Global Progress Indicator
+          </span>
+          <span id="progressPercent" class="text-emerald-400 font-mono">0% Completed (0/45 Qs)</span>
+        </div>
+        <div class="w-full bg-slate-900/90 rounded-full h-3 p-0.5 border border-slate-800 overflow-hidden">
+          <div id="progressBar" class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 h-2 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- STICKY WIZARD NAVIGATION BAR -->
+  <nav class="glass-nav sticky top-0 z-30 shadow-2xl">
+    <div class="max-w-6xl mx-auto px-4 overflow-x-auto custom-scrollbar">
+      <div class="flex whitespace-nowrap gap-2 py-3" id="navTabs">
+        <button onclick="switchTab(0)" id="tab-0" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 text-white shadow-lg transition">
+          0. Overview
+        </button>
+        <button onclick="switchTab(1)" id="tab-1" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+          1. Reading
+        </button>
+        <button onclick="switchTab(2)" id="tab-2" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+          2. Advertisements
+        </button>
+        <button onclick="switchTab(3)" id="tab-3" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+          3. Listening
+        </button>
+        <button onclick="switchTab(4)" id="tab-4" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition">
+          4. Grammar (30 Qs)
+        </button>
+        <button onclick="switchTab(5)" id="tab-5" class="tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-600 bg-slate-900/50 cursor-not-allowed transition flex items-center gap-1.5" disabled>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+          5. Score & Report
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN EXAMINATION CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 py-8 flex-grow w-full">
+
+    <!-- FLOATING VALIDATION NOTIFICATION -->
+    <div id="validationBanner" class="hidden glass-card border-rose-500/50 bg-rose-950/30 text-rose-200 px-5 py-4 rounded-2xl mb-6 text-sm flex items-center justify-between shadow-xl">
+      <div class="flex items-center gap-3">
+        <span class="text-xl">⚠️</span>
+        <span id="validationMsg" class="font-medium">Please enter your full name and answer all questions in this section!</span>
+      </div>
+      <button onclick="hideValidationBanner()" class="text-rose-400 hover:text-white font-bold text-lg leading-none">&times;</button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 0: INTRODUCTION CARD -->
+    <!-- ============================================================ -->
+    <section id="page-0" class="page-content space-y-6">
+      <div class="glass-card p-8 rounded-3xl border border-indigo-500/20 shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div class="max-w-3xl">
+          <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-extrabold rounded-full inline-block mb-4">Official Assessment Guide</span>
+          <h2 class="text-3xl font-black text-white mb-4 tracking-tight">Welcome to the B1 Level English Examination</h2>
+          <p class="text-slate-300 text-sm leading-relaxed mb-6">
+            This interactive test evaluates your English proficiency across four essential language dimensions. Please ensure your full name is written in the header above before beginning.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div class="text-indigo-400 font-bold text-base mb-1">📖 Part 1: Reading Comprehension</div>
+              <p class="text-xs text-slate-400">An authentic B1 text on urban agriculture with 5 multiple-choice questions.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div class="text-purple-400 font-bold text-base mb-1">📢 Part 2: Advertisements</div>
+              <p class="text-xs text-slate-400">Match 5 real-world notices and public ads with candidate profile requirements.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div class="text-emerald-400 font-bold text-base mb-1">🎧 Part 3: Listening Practice</div>
+              <p class="text-xs text-slate-400">Interactive American accent speech player (~2.5 mins) with 5 comprehension questions.</p>
+            </div>
+            <div class="p-4 rounded-2xl bg-slate-900/60 border border-slate-800">
+              <div class="text-amber-400 font-bold text-base mb-1">✍️ Part 4: Past Perfect Continuous</div>
+              <p class="text-xs text-slate-400">30 Grammar questions (20 Multiple Choice + 10 Short Open Fill-in-the-blanks).</p>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-4 items-center">
+            <button onclick="switchTab(1)" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold text-sm rounded-xl shadow-lg transition transform active:scale-95">
+              Begin Examination Now →
+            </button>
+            <span class="text-xs text-slate-400">Total Questions: <strong>45 items</strong> | Estimated time: 35–45 minutes</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 1: READING COMPREHENSION -->
+    <!-- ============================================================ -->
+    <section id="page-1" class="page-content hidden space-y-6">
+      <div class="glass-card p-6 md:p-8 rounded-3xl">
+        <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+          <div>
+            <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs font-bold rounded-full inline-block mb-2">Part 1</span>
+            <h3 class="text-2xl font-extrabold text-white">Reading Comprehension</h3>
+          </div>
+          <span class="text-xs text-slate-400">5 Questions</span>
+        </div>
+
+        <!-- Passage Card -->
+        <div class="bg-slate-900/90 p-6 rounded-2xl border border-slate-800 text-slate-300 text-sm leading-relaxed space-y-4 mb-8">
+          <h4 class="text-indigo-300 font-bold text-base border-b border-slate-800 pb-2">The Urban Farming Revolution</h4>
+          <p>
+            In downtown Chicago, surrounded by towering concrete skyscrapers and noisy morning traffic, Mark Stevens operates an extraordinary agricultural project: a thriving 10,000-square-foot rooftop farm. Three years ago, Mark had been managing a conventional corporate office job when he realized how disconnected urban residents had become from their food sources. Determined to make a change, he quit his corporate career, gathered funding from local environmental investors, and leased the roof of an old industrial warehouse.
+          </p>
+          <p>
+            Today, Mark's farm produces hundreds of pounds of organic leafy greens, heirloom tomatoes, and culinary herbs every week. Instead of utilizing traditional soil, the rooftop uses advanced hydroponic and drip-irrigation systems that conserve up to 90 percent more water than conventional rural farms. Furthermore, because the food is harvested and delivered directly to nearby neighborhood markets and restaurants on the same day, transport emissions are virtually eliminated.
+          </p>
+          <p>
+            Beyond growing fresh produce, the initiative actively serves the local community. Every Saturday morning, Mark hosts free educational workshops for local high school students, teaching them about sustainable urban ecology and modern agricultural technology. Although managing weather unpredictability and winter freezing remains a continuous challenge, Mark plans to expand his rooftop concept to three additional industrial buildings across the city by next spring.
+          </p>
+        </div>
+
+        <!-- Reading Questions -->
+        <div class="space-y-6" id="readingQuestions">
+          <!-- Q1 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">1. What was Mark doing before he established the rooftop farm?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q1" value="A" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">A) He was teaching high school ecology in downtown Chicago.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q1" value="B" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">B) He had been working in a traditional corporate office job.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q1" value="C" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">C) He was operating a delivery truck for local restaurants.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">2. How does Mark's rooftop irrigation system compare to traditional farming?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q2" value="A" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">A) It uses significantly less water than rural farms.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q2" value="B" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">B) It requires rich traditional soil imported from outside the city.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q2" value="C" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">C) It consumes twice as much electricity as ordinary greenhouses.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">3. Why are transport emissions virtually eliminated in Mark's business model?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q3" value="A" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">A) Vegetables are delivered on the same day to nearby local buyers.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q3" value="B" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">B) Produce is stored in solar-powered refrigerators for months.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q3" value="C" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">C) Customers are required to pick up their orders on foot.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">4. What community activity takes place at the farm every Saturday?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q4" value="A" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">A) A wholesale farmers market for restaurant chefs.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q4" value="B" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">B) Free educational ecology workshops for high school students.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q4" value="C" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">C) Volunteer harvesting contests with cash prizes.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">5. What future plan does Mark have for his urban farm project?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q5" value="A" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">A) Selling the rooftop to a commercial housing developer.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q5" value="B" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">B) Expanding the rooftop model to three other buildings by next spring.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-indigo-500/50 cursor-pointer transition">
+                <input type="radio" name="p1_q5" value="C" onchange="updateProgress()" class="mt-0.5 text-indigo-500 focus:ring-indigo-500">
+                <span class="ml-3 text-slate-300">C) Moving his entire operation to a rural farm outside Illinois.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 2: ADVERTISEMENT MATCHING -->
+    <!-- ============================================================ -->
+    <section id="page-2" class="page-content hidden space-y-6">
+      <div class="glass-card p-6 md:p-8 rounded-3xl">
+        <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+          <div>
+            <span class="px-3 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 text-xs font-bold rounded-full inline-block mb-2">Part 2</span>
+            <h3 class="text-2xl font-extrabold text-white">Advertisement Matching</h3>
+          </div>
+          <span class="text-xs text-slate-400">5 Questions</span>
+        </div>
+
+        <!-- Ads Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div class="bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-5 relative shadow-lg">
+            <span class="absolute top-3 right-4 font-black text-indigo-400 text-xl">A</span>
+            <h4 class="font-extrabold text-indigo-200 mb-2">Tech Hub Coworking</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">"24/7 desk space for tech freelancers! High-speed fiber internet, free espresso bar, and private soundproof call booths. Flexible monthly plans with no setup fees."</p>
+          </div>
+
+          <div class="bg-purple-950/40 border border-purple-500/30 rounded-2xl p-5 relative shadow-lg">
+            <span class="absolute top-3 right-4 font-black text-purple-400 text-xl">B</span>
+            <h4 class="font-extrabold text-purple-200 mb-2">Creative Pottery Studio</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">"Weekend Clay Workshops! Learn wheel throwing and ceramic glazing from master artisans. All materials and clay firing included in fee."</p>
+          </div>
+
+          <div class="bg-emerald-950/40 border border-emerald-500/30 rounded-2xl p-5 relative shadow-lg">
+            <span class="absolute top-3 right-4 font-black text-emerald-400 text-xl">C</span>
+            <h4 class="font-extrabold text-emerald-200 mb-2">Eco-Movers Express</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">"Stress-free apartment relocations! 100% electric vans and reusable plastic crates. Book online 7 days in advance to receive a 15% discount."</p>
+          </div>
+
+          <div class="bg-amber-950/40 border border-amber-500/30 rounded-2xl p-5 relative shadow-lg">
+            <span class="absolute top-3 right-4 font-black text-amber-400 text-xl">D</span>
+            <h4 class="font-extrabold text-amber-200 mb-2">Vintage Guitar Vault</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">"Rare 1960s acoustic and electric guitars! Free professional setup and instrument inspection with every purchase this month."</p>
+          </div>
+
+          <div class="bg-rose-950/40 border border-rose-500/30 rounded-2xl p-5 relative shadow-lg">
+            <span class="absolute top-3 right-4 font-black text-rose-400 text-xl">E</span>
+            <h4 class="font-extrabold text-rose-200 mb-2">Paws & Care App</h4>
+            <p class="text-xs text-slate-300 leading-relaxed">"Going out of town? Trusted local pet sitters will walk your dog or feed your cat at home. Live GPS tracking and photo updates included."</p>
+          </div>
+        </div>
+
+        <!-- Matching Selectors -->
+        <div class="space-y-4" id="adQuestions">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-900/60 rounded-2xl border border-slate-800 gap-4">
+            <span class="text-sm font-medium text-slate-200">1. A remote programmer needs a quiet environment with fast internet and phone privacy.</span>
+            <select name="p2_q1" onchange="updateProgress()" class="px-4 py-2 text-sm rounded-xl border border-slate-700 bg-slate-900 text-indigo-300 font-bold focus:ring-2 focus:ring-indigo-500">
+              <option value="">Select Option...</option>
+              <option value="A">Notice A (Tech Hub)</option>
+              <option value="B">Notice B (Pottery Studio)</option>
+              <option value="C">Notice C (Eco-Movers)</option>
+              <option value="D">Notice D (Guitar Vault)</option>
+              <option value="E">Notice E (Paws & Care)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-900/60 rounded-2xl border border-slate-800 gap-4">
+            <span class="text-sm font-medium text-slate-200">2. Someone traveling on business wants updates on their cat while away from home.</span>
+            <select name="p2_q2" onchange="updateProgress()" class="px-4 py-2 text-sm rounded-xl border border-slate-700 bg-slate-900 text-indigo-300 font-bold focus:ring-2 focus:ring-indigo-500">
+              <option value="">Select Option...</option>
+              <option value="A">Notice A (Tech Hub)</option>
+              <option value="B">Notice B (Pottery Studio)</option>
+              <option value="C">Notice C (Eco-Movers)</option>
+              <option value="D">Notice D (Guitar Vault)</option>
+              <option value="E">Notice E (Paws & Care)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-900/60 rounded-2xl border border-slate-800 gap-4">
+            <span class="text-sm font-medium text-slate-200">3. An artist wants a hands-on weekend activity where equipment and supplies are provided.</span>
+            <select name="p2_q3" onchange="updateProgress()" class="px-4 py-2 text-sm rounded-xl border border-slate-700 bg-slate-900 text-indigo-300 font-bold focus:ring-2 focus:ring-indigo-500">
+              <option value="">Select Option...</option>
+              <option value="A">Notice A (Tech Hub)</option>
+              <option value="B">Notice B (Pottery Studio)</option>
+              <option value="C">Notice C (Eco-Movers)</option>
+              <option value="D">Notice D (Guitar Vault)</option>
+              <option value="E">Notice E (Paws & Care)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-900/60 rounded-2xl border border-slate-800 gap-4">
+            <span class="text-sm font-medium text-slate-200">4. A person shifting to a new flat wants a discount by scheduling early.</span>
+            <select name="p2_q4" onchange="updateProgress()" class="px-4 py-2 text-sm rounded-xl border border-slate-700 bg-slate-900 text-indigo-300 font-bold focus:ring-2 focus:ring-indigo-500">
+              <option value="">Select Option...</option>
+              <option value="A">Notice A (Tech Hub)</option>
+              <option value="B">Notice B (Pottery Studio)</option>
+              <option value="C">Notice C (Eco-Movers)</option>
+              <option value="D">Notice D (Guitar Vault)</option>
+              <option value="E">Notice E (Paws & Care)</option>
+            </select>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-slate-900/60 rounded-2xl border border-slate-800 gap-4">
+            <span class="text-sm font-medium text-slate-200">5. A musician looking to buy a classic instrument with complimentary adjustment service.</span>
+            <select name="p2_q5" onchange="updateProgress()" class="px-4 py-2 text-sm rounded-xl border border-slate-700 bg-slate-900 text-indigo-300 font-bold focus:ring-2 focus:ring-indigo-500">
+              <option value="">Select Option...</option>
+              <option value="A">Notice A (Tech Hub)</option>
+              <option value="B">Notice B (Pottery Studio)</option>
+              <option value="C">Notice C (Eco-Movers)</option>
+              <option value="D">Notice D (Guitar Vault)</option>
+              <option value="E">Notice E (Paws & Care)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 3: LISTENING COMPREHENSION -->
+    <!-- ============================================================ -->
+    <section id="page-3" class="page-content hidden space-y-6">
+      <div class="glass-card p-6 md:p-8 rounded-3xl">
+        <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+          <div>
+            <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-bold rounded-full inline-block mb-2">Part 3</span>
+            <h3 class="text-2xl font-extrabold text-white">Listening Practice</h3>
+          </div>
+          <span class="text-xs text-slate-400">5 Questions</span>
+        </div>
+
+        <!-- Audio Control Console -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 rounded-2xl border border-indigo-500/30 shadow-2xl mb-8">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-5 w-full md:w-auto">
+              <button id="playAudioBtn" onclick="toggleAudio()" class="w-16 h-16 bg-gradient-to-tr from-emerald-400 to-indigo-500 hover:from-emerald-300 hover:to-indigo-400 text-slate-950 font-black rounded-2xl flex items-center justify-center text-2xl shadow-xl transition transform active:scale-95 flex-shrink-0">
+                ▶
+              </button>
+              <div>
+                <h4 class="font-bold text-lg text-white">Audio Track: Yosemite Expedition Narrative</h4>
+                <p class="text-xs text-indigo-300/80 mt-0.5" id="audioStatusText">Status: Speech Synthesizer Ready (~2.5 min duration)</p>
+              </div>
+            </div>
+
+            <!-- Speech Speed Controller -->
+            <div class="flex items-center gap-3 bg-slate-900/80 px-4 py-2.5 rounded-xl border border-slate-800 w-full md:w-auto justify-between">
+              <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Voice Speed:</span>
+              <input type="range" id="speechRate" min="0.8" max="1.1" step="0.05" value="0.95" class="accent-indigo-500 cursor-pointer">
+              <span id="rateVal" class="text-xs font-mono font-extrabold text-indigo-400">0.95x</span>
+            </div>
+
+          </div>
+
+          <!-- Transcript Toggle -->
+          <div class="mt-6 pt-4 border-t border-slate-800 flex justify-between items-center">
+            <button onclick="toggleTranscript()" class="text-xs text-indigo-400 hover:text-indigo-300 font-semibold flex items-center gap-1.5">
+              <span>👁️</span> Toggle Script Text
+            </button>
+            <span class="text-[11px] text-slate-500">Accent: Natural American English</span>
+          </div>
+
+          <div id="transcriptBox" class="hidden mt-4 p-4 bg-slate-950/90 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+            <p><strong>Narrator:</strong> Last spring, David and his hiking team spent four unforgettable days exploring California's Yosemite National Park.</p>
+            <p>David had been planning the wilderness expedition for over six months before they finally set off. Prior to their arrival, the valley had been experiencing heavy rainfall for nearly a week, which filled the famous Yosemite waterfalls to their maximum capacity.</p>
+            <p>On their second morning, the group began ascending the steep trail toward Glacier Point. They had been hiking for almost three hours when they spotted a mother black bear and her two cubs near a pine grove. Fortunately, the team had been practicing safety protocol during their training sessions, so they remained calm and allowed the bear family to pass peacefully.</p>
+            <p>By late afternoon, the clouds cleared, revealing a panoramic view of Half Dome sunset. David noted that although his muscles were aching from the climb, the experience was the highlight of his year.</p>
+          </div>
+        </div>
+
+        <!-- Listening Questions -->
+        <div class="space-y-6" id="listeningQuestions">
+          <!-- Q1 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">1. How long had David been planning the Yosemite expedition before setting off?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q1" value="A" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">A) For over six months.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q1" value="B" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">B) Exactly two weeks.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q1" value="C" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">C) Nearly one full year.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q2 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">2. What weather condition had been occurring in the valley prior to their arrival?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q2" value="A" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">A) Freezing snowstorms and blizzards.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q2" value="B" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">B) Heavy rainfall for nearly a week.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q2" value="C" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">C) Dry heatwaves and wildfire warnings.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q3 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">3. How long had the group been hiking on the second morning when they saw wildlife?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q3" value="A" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">A) For almost three hours.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q3" value="B" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">B) Only fifteen minutes.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q3" value="C" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">C) Over seven continuous hours.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q4 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">4. What animals did the hiking team encounter along the Glacier Point trail?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q4" value="A" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">A) A herd of wild mountain elk.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q4" value="B" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">B) A mother black bear and two cubs.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q4" value="C" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">C) A solitary golden eagle.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Q5 -->
+          <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+            <p class="font-semibold text-white text-sm mb-3">5. Why did the hiking team handle the wildlife encounter successfully?</p>
+            <div class="space-y-2 text-sm">
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q5" value="A" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">A) They had been practicing safety protocols during training sessions.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q5" value="B" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">B) They scared the animals away by shouting loudly.</span>
+              </label>
+              <label class="flex items-start p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-emerald-500/50 cursor-pointer transition">
+                <input type="radio" name="p3_q5" value="C" onchange="updateProgress()" class="mt-0.5 text-emerald-500 focus:ring-emerald-500">
+                <span class="ml-3 text-slate-300">C) A park ranger was accompanying them with flares.</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 4: GRAMMAR FOCUS (PAST PERFECT CONTINUOUS) -->
+    <!-- ============================================================ -->
+    <section id="page-4" class="page-content hidden space-y-6">
+      <div class="glass-card p-6 md:p-8 rounded-3xl">
+        <div class="flex items-center justify-between mb-6 border-b border-slate-800 pb-4">
+          <div>
+            <span class="px-3 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 text-xs font-bold rounded-full inline-block mb-2">Part 4</span>
+            <h3 class="text-2xl font-extrabold text-white">Grammar Mastery: Past Perfect Continuous</h3>
+          </div>
+          <span class="text-xs text-slate-400">30 Questions Total</span>
+        </div>
+
+        <!-- Section A: 20 MC -->
+        <div class="mb-10">
+          <h4 class="text-sm font-extrabold text-amber-300 uppercase tracking-wider bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 mb-6 flex items-center gap-2">
+            <span>🔹</span> Section A: 20 Multiple Choice Questions
+          </h4>
+          <div class="space-y-6" id="mcQuestionsContainer"></div>
+        </div>
+
+        <!-- Section B: 10 Open Fill-in-blanks -->
+        <div>
+          <h4 class="text-sm font-extrabold text-indigo-300 uppercase tracking-wider bg-slate-900/80 p-3.5 rounded-2xl border border-slate-800 mb-2 flex items-center gap-2">
+            <span>✏️</span> Section B: 10 Open Short-Answer Fill-in-the-Blanks
+          </h4>
+          <p class="text-xs text-slate-400 mb-6">Write the correct Past Perfect Continuous form of the verb given in parentheses (e.g., <em>had been working</em>).</p>
+
+          <div class="space-y-4" id="openQuestionsContainer"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- PAGE 5: RESULTS & SUBMISSION PAGE -->
+    <!-- ============================================================ -->
+    <section id="page-5" class="page-content hidden space-y-6">
+      <div class="glass-card p-6 md:p-8 rounded-3xl">
+        
+        <!-- Result Header Banner -->
+        <div class="text-center pb-6 border-b border-slate-800">
+          <span class="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs font-extrabold rounded-full inline-block mb-3">Assessment Unlocked 🎉</span>
+          <h3 class="text-3xl font-black text-white">Official Score Report</h3>
+          <p class="text-xs text-slate-400 mt-1 font-mono" id="resStudentDetails">Student: - | Date: -</p>
+        </div>
+
+        <!-- Score Metrics Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 my-6">
+          <div class="bg-slate-900/80 border border-indigo-500/30 p-5 rounded-2xl text-center shadow-lg">
+            <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">Raw Score</span>
+            <div id="scoreNumber" class="text-3xl font-black text-white mt-1">0 / 45</div>
+          </div>
+          <div class="bg-slate-900/80 border border-purple-500/30 p-5 rounded-2xl text-center shadow-lg">
+            <span class="text-[11px] font-bold text-purple-400 uppercase tracking-wider">Percentage</span>
+            <div id="scorePercentage" class="text-3xl font-black text-white mt-1">0%</div>
+          </div>
+          <div class="bg-slate-900/80 border border-emerald-500/30 p-5 rounded-2xl text-center flex flex-col justify-center items-center shadow-lg">
+            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider mb-1">Status Badge</span>
+            <span id="scoreBadge" class="px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full">Calculating...</span>
+          </div>
+        </div>
+
+        <!-- Action Export Buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 my-6">
+          <button onclick="sendEmailResult()" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold py-3.5 px-5 rounded-xl shadow-xl transition flex items-center justify-center gap-2 text-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            Send Answers via Email
+          </button>
+          
+          <button onclick="copySummaryClipboard()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 px-5 rounded-xl shadow-xl transition flex items-center justify-center gap-2 text-sm border border-slate-700">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            Copy Results to Clipboard
+          </button>
+        </div>
+
+        <!-- Toast Feedback Notice -->
+        <div id="toastMsg" class="hidden p-3.5 bg-emerald-600 text-white font-bold text-xs rounded-xl text-center shadow-2xl"></div>
+
+        <!-- Question Breakdown Review Table -->
+        <div class="mt-8">
+          <h4 class="font-extrabold text-white text-base mb-4">Detailed Breakdown Table</h4>
+          <div class="overflow-x-auto border border-slate-800 rounded-2xl">
+            <table class="w-full text-left text-xs text-slate-300">
+              <thead class="bg-slate-900/90 text-[11px] font-bold text-slate-400 uppercase border-b border-slate-800">
+                <tr>
+                  <th class="px-4 py-3">Q#</th>
+                  <th class="px-4 py-3">Section</th>
+                  <th class="px-4 py-3">Your Answer</th>
+                  <th class="px-4 py-3">Correct Key</th>
+                  <th class="px-4 py-3 text-center">Result</th>
+                </tr>
+              </thead>
+              <tbody id="resultsTableBody" class="divide-y divide-slate-800/60 bg-slate-950/40">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER NAV NAVIGATION CONTROL BAR -->
+    <div class="mt-8 flex justify-between items-center glass-card p-4 rounded-2xl">
+      <button id="prevBtn" onclick="navigateTab(-1)" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold rounded-xl text-xs transition border border-slate-800">
+        ← Previous Step
+      </button>
+      
+      <span class="text-xs text-slate-500 font-semibold" id="stepCounter">Page 0 of 5</span>
+
+      <button id="nextBtn" onclick="navigateTab(1)" class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs transition shadow-lg flex items-center gap-1">
+        Next Section →
+      </button>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-900 bg-slate-950/80 text-slate-500 text-xs text-center py-6 mt-12">
+    <p>© 2026 English Family Evaluation Center. All rights reserved.</p>
+  </footer>
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT EXAM ENGINE -->
+  <!-- ============================================================ -->
+  <script>
+    let currentTab = 0;
+
+    // Correct Answer Key Definition (45 Questions)
+    const ANSWER_KEY = {
+      // Reading 5 Qs
+      p1_q1: "B", p1_q2: "A", p1_q3: "A", p1_q4: "B", p1_q5: "B",
+      // Ads 5 Qs
+      p2_q1: "A", p2_q2: "E", p2_q3: "B", p2_q4: "C", p2_q5: "D",
+      // Listening 5 Qs
+      p3_q1: "A", p3_q2: "B", p3_q3: "A", p3_q4: "B", p3_q5: "A",
+      // Grammar MC 20 Qs
+      p4_mc1: "A", p4_mc2: "B", p4_mc3: "A", p4_mc4: "C", p4_mc5: "B",
+      p4_mc6: "A", p4_mc7: "B", p4_mc8: "C", p4_mc9: "A", p4_mc10: "B",
+      p4_mc11: "A", p4_mc12: "C", p4_mc13: "B", p4_mc14: "A", p4_mc15: "B",
+      p4_mc16: "C", p4_mc17: "A", p4_mc18: "B", p4_mc19: "A", p4_mc20: "C",
+      // Grammar Open 10 Qs
+      p4_op1: "had been practicing",
+      p4_op2: "had been searching",
+      p4_op3: "had been negotiating",
+      p4_op4: "had been renovation", // accepted variation: had been renovating
+      p4_op5: "had been repairing",
+      p4_op6: "had been teaching",
+      p4_op7: "had been exercise", // accepted variation: had been exercising
+      p4_op8: "had been designing",
+      p4_op9: "had been recording",
+      p4_op10: "had been travel" // accepted variation: had been traveling
+    };
+
+    // 20 New Grammar MC Data
+    const GRAMMAR_MC_DATA = [
+      { id: "p4_mc1", q: "1. The scientist ___ the data for hours before she spotted the anomaly.", opts: ["A) had been analyzing", "B) has analyzed", "C) was analyze"], ans: "A" },
+      { id: "p4_mc2", q: "2. How long ___ you ___ English before you moved to Canada?", opts: ["A) have / studying", "B) had / been studying", "C) were / study"], ans: "B" },
+      { id: "p4_mc3", q: "3. My knees were sore because I ___ in the garden all morning.", opts: ["A) had been kneeling", "B) have knelt", "C) was kneel"], ans: "A" },
+      { id: "p4_mc4", q: "4. The solar panels ___ electricity continuously until the severe storm hit.", opts: ["A) had generating", "B) is generating", "C) had been generating"], ans: "C" },
+      { id: "p4_mc5", q: "5. Why were the streets so muddy? ___ it ___ earlier?", opts: ["A) Has / raining", "B) Had / been raining", "C) Was / rained"], ans: "B" },
+      { id: "p4_mc6", q: "6. The bakery ___ fresh bread for two hours before the store opened.", opts: ["A) had been baking", "B) has baked", "C) was bake"], ans: "A" },
+      { id: "p4_mc7", q: "7. We ___ for an open parking space before finding one near the exit.", opts: ["A) had looking", "B) had been looking", "C) were looked"], ans: "B" },
+      { id: "p4_mc8", q: "8. The software developer ___ bug fixes all night prior to the release.", opts: ["A) has testing", "B) had tested", "C) had been testing"], ans: "C" },
+      { id: "p4_mc9", q: "9. She ___ headache symptoms because she had been staring at screens.", opts: ["A) had been experiencing", "B) has experienced", "C) was experience"], ans: "A" },
+      { id: "p4_mc10", q: "10. The choir ___ the anthem long before the ceremony started.", opts: ["A) had rehearsed", "B) had been rehearsing", "C) has been rehearse"], ans: "B" },
+      { id: "p4_mc11", q: "11. He was exhausted because he ___ heavy boxes up the stairs.", opts: ["A) had been carrying", "B) has carried", "C) was carry"], ans: "A" },
+      { id: "p4_mc12", q: "12. The factory ___ smoothly until the electrical transformer blew.", opts: ["A) has operating", "B) had operate", "C) had been operating"], ans: "C" },
+      { id: "p4_mc13", q: "13. They ___ to buy tickets for three weeks before succeeding.", opts: ["A) was trying", "B) had been trying", "C) have tried"], ans: "B" },
+      { id: "p4_mc14", q: "14. How long had the furnace ___ smoke before you noticed it?", opts: ["A) been emitting", "B) being emitted", "C) been emitted"], ans: "A" },
+      { id: "p4_mc15", q: "15. The marathon runner ___ fast before feeling a sharp cramp.", opts: ["A) had running", "B) had been running", "C) has been run"], ans: "B" },
+      { id: "p4_mc16", q: "16. Her eyes were strained because she ___ late in low light.", opts: ["A) had reading", "B) has been reading", "C) had been reading"], ans: "C" },
+      { id: "p4_mc17", q: "17. The kids ___ outside in the mud before coming indoors.", opts: ["A) had been playing", "B) was playing", "C) have played"], ans: "A" },
+      { id: "p4_mc18", q: "18. The engine ___ strange noises before it completely stalled.", opts: ["A) had making", "B) had been making", "C) was make"], ans: "B" },
+      { id: "p4_mc19", q: "19. Had they ___ on the merger long before the public announcement?", opts: ["A) been working", "B) being worked", "C) been work"], ans: "A" },
+      { id: "p4_mc20", q: "20. The author ___ chapter four when her laptop battery died.", opts: ["A) had writing", "B) was written", "C) had been writing"], ans: "C" }
+    ];
+
+    // 10 New Grammar Open Data
+    const GRAMMAR_OPEN_DATA = [
+      { id: "p4_op1", prompt: "1. The pianist ________ (practice) the sonata for three months before the concert." },
+      { id: "p4_op2", prompt: "2. Detectives ________ (search) for clues long before making an arrest." },
+      { id: "p4_op3", prompt: "3. The contract lawyers ________ (negotiate) for hours prior to reaching agreement." },
+      { id: "p4_op4", prompt: "4. We ________ (renovate) the kitchen for six weeks when the plumbing leaked." },
+      { id: "p4_op5", prompt: "5. Mechanics ________ (repair) the aircraft engine prior to the flight test." },
+      { id: "p4_op6", prompt: "6. Professor Harrison ________ (teach) at Harvard before joining Oxford." },
+      { id: "p4_op7", prompt: "7. She ________ (exercise) regularly before she injured her foot." },
+      { id: "p4_op8", prompt: "8. The architects ________ (design) the skyscraper before budgets were cut." },
+      { id: "p4_op9", prompt: "9. The podcast hosts ________ (record) for an hour when the power dropped." },
+      { id: "p4_op10", prompt: "10. They ________ (travel) across South America before starting college." }
+    ];
+
+    // DOM Ready
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('testDate').valueAsDate = new Date();
+      renderGrammarMC();
+      renderGrammarOpen();
+      updateProgress();
+    });
+
+    function renderGrammarMC() {
+      const container = document.getElementById('mcQuestionsContainer');
+      container.innerHTML = GRAMMAR_MC_DATA.map(item => `
+        <div class="bg-slate-900/40 p-5 rounded-2xl border border-slate-800">
+          <p class="font-semibold text-white text-sm mb-3">${item.q}</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-sm">
+            ${item.opts.map(opt => {
+              const val = opt.charAt(0);
+              return `
+                <label class="flex items-center p-3 rounded-xl border border-slate-800 bg-slate-900/60 hover:border-amber-500/50 cursor-pointer transition">
+                  <input type="radio" name="${item.id}" value="${val}" onchange="updateProgress()" class="text-amber-500 focus:ring-amber-500">
+                  <span class="ml-2.5 text-slate-300">${opt}</span>
+                </label>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGrammarOpen() {
+      const container = document.getElementById('openQuestionsContainer');
+      container.innerHTML = GRAMMAR_OPEN_DATA.map(item => `
+        <div class="p-4 bg-slate-900/60 rounded-2xl border border-slate-800">
+          <label class="block text-xs font-bold text-slate-300 mb-2">${item.prompt}</label>
+          <input type="text" name="${item.id}" oninput="updateProgress()" placeholder="e.g. had been practicing..." 
+            class="w-full px-4 py-2.5 text-sm rounded-xl bg-slate-950 text-indigo-300 border border-slate-700 focus:ring-2 focus:ring-indigo-500 font-mono">
+        </div>
+      `).join('');
+    }
+
+    // Wizard Nav Switcher
+    function switchTab(tabIndex) {
+      if (tabIndex === 5 && !checkAllQuestionsAnswered()) {
+        showValidationBanner("Part 5 is locked! Please enter your full name and answer all 45 questions first.");
+        return;
+      }
+
+      currentTab = tabIndex;
+      hideValidationBanner();
+
+      document.querySelectorAll('.page-content').forEach((p, idx) => {
+        if (idx === tabIndex) p.classList.remove('hidden');
+        else p.classList.add('hidden');
+      });
+
+      for (let i = 0; i <= 5; i++) {
+        const btn = document.getElementById(`tab-${i}`);
+        if (!btn) continue;
+        if (i === tabIndex) {
+          btn.className = "tab-btn px-4 py-2 text-xs font-bold rounded-xl bg-indigo-600 text-white shadow-lg transition";
+        } else if (i === 5 && !checkAllQuestionsAnswered()) {
+          btn.className = "tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-600 bg-slate-900/50 cursor-not-allowed transition flex items-center gap-1.5";
+        } else {
+          btn.className = "tab-btn px-4 py-2 text-xs font-bold rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition";
+        }
+      }
+
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const counter = document.getElementById('stepCounter');
+
+      prevBtn.style.visibility = (tabIndex === 0) ? 'hidden' : 'visible';
+      counter.innerText = `Page ${tabIndex} of 5`;
+
+      if (tabIndex === 4) {
+        nextBtn.innerHTML = `Finish & View Report 🏆`;
+      } else if (tabIndex === 5) {
+        nextBtn.style.visibility = 'hidden';
+      } else {
+        nextBtn.style.visibility = 'visible';
+        nextBtn.innerHTML = `Next Section →`;
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (tabIndex === 5) {
+        evaluateAndRenderResults();
+      }
+    }
+
+    function navigateTab(direction) {
+      const target = currentTab + direction;
+      if (direction === 1 && currentTab === 0 && !document.getElementById('studentName').value.trim()) {
+        showValidationBanner("Please write your Full Name in the header before proceeding!");
+        return;
+      }
+      if (target >= 0 && target <= 5) switchTab(target);
+    }
+
+    function showValidationBanner(msg) {
+      const banner = document.getElementById('validationBanner');
+      document.getElementById('validationMsg').innerText = msg;
+      banner.classList.remove('hidden');
+    }
+
+    function hideValidationBanner() {
+      document.getElementById('validationBanner').classList.add('hidden');
+    }
+
+    // Progress Engine
+    function countAnsweredQuestions() {
+      let count = 0;
+      for (let i = 1; i <= 5; i++) if (document.querySelector(`input[name="p1_q${i}"]:checked`)) count++;
+      for (let i = 1; i <= 5; i++) if (document.querySelector(`select[name="p2_q${i}"]`)?.value) count++;
+      for (let i = 1; i <= 5; i++) if (document.querySelector(`input[name="p3_q${i}"]:checked`)) count++;
+      for (let i = 1; i <= 20; i++) if (document.querySelector(`input[name="p4_mc${i}"]:checked`)) count++;
+      for (let i = 1; i <= 10; i++) if (document.querySelector(`input[name="p4_op${i}"]`)?.value.trim()) count++;
+      return count;
+    }
+
+    function checkAllQuestionsAnswered() {
+      const answered = countAnsweredQuestions();
+      const hasName = document.getElementById('studentName').value.trim() !== "";
+      return answered === 45 && hasName;
+    }
+
+    function updateProgress() {
+      const answered = countAnsweredQuestions();
+      const pct = Math.round((answered / 45) * 100);
+
+      document.getElementById('progressPercent').innerText = `${pct}% Completed (${answered}/45 Qs)`;
+      document.getElementById('progressBar').style.width = `${pct}%`;
+
+      const tab5Btn = document.getElementById('tab-5');
+      if (checkAllQuestionsAnswered()) {
+        tab5Btn.disabled = false;
+        tab5Btn.className = "tab-btn px-4 py-2 text-xs font-bold rounded-xl bg-emerald-600 text-white hover:bg-emerald-500 transition shadow-lg";
+        tab5Btn.innerHTML = `5. Score & Report 🔓`;
+      } else {
+        tab5Btn.disabled = true;
+      }
+    }
+
+    // SpeechSynthesis Audio Engine
+    let synth = window.speechSynthesis;
+    let isSpeaking = false;
+
+    const audioScript = `
+      Narrator: Last spring, David and his hiking team spent four unforgettable days exploring California's Yosemite National Park.
+      David had been planning the wilderness expedition for over six months before they finally set off. Prior to their arrival, the valley had been experiencing heavy rainfall for nearly a week, which filled the famous Yosemite waterfalls to their maximum capacity.
+      On their second morning, the group began ascending the steep trail toward Glacier Point. They had been hiking for almost three hours when they spotted a mother black bear and her two cubs near a pine grove. Fortunately, the team had been practicing safety protocol during their training sessions, so they remained calm and allowed the bear family to pass peacefully.
+      By late afternoon, the clouds cleared, revealing a panoramic view of Half Dome sunset. David noted that although his muscles were aching from the climb, the experience was the highlight of his year.
+    `;
+
+    function toggleAudio() {
+      if (!synth) {
+        alert("Your browser does not support Speech Synthesis audio.");
+        return;
+      }
+
+      const btn = document.getElementById('playAudioBtn');
+      const status = document.getElementById('audioStatusText');
+
+      if (synth.speaking && isSpeaking) {
+        synth.cancel();
+        isSpeaking = false;
+        btn.innerText = "▶";
+        status.innerText = "Status: Paused";
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(audioScript);
+      utterance.lang = 'en-US';
+      utterance.rate = parseFloat(document.getElementById('speechRate').value);
+
+      const voices = synth.getVoices();
+      const usVoice = voices.find(v => v.lang.includes('en-US') || v.lang.includes('en_US'));
+      if (usVoice) utterance.voice = usVoice;
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        btn.innerText = "⏸";
+        status.innerText = "Status: Playing Yosemite Narrative...";
+      };
+
+      utterance.onend = () => {
+        isSpeaking = false;
+        btn.innerText = "▶";
+        status.innerText = "Status: Finished. Click play to repeat.";
+      };
+
+      synth.speak(utterance);
+    }
+
+    document.getElementById('speechRate')?.addEventListener('input', (e) => {
+      document.getElementById('rateVal').innerText = `${e.target.value}x`;
+    });
+
+    function toggleTranscript() {
+      document.getElementById('transcriptBox').classList.toggle('hidden');
+    }
+
+    // Results & Scoring Engine
+    function evaluateAndRenderResults() {
+      const name = document.getElementById('studentName').value.trim() || 'Student';
+      const date = document.getElementById('testDate').value || new Date().toISOString().split('T')[0];
+      
+      document.getElementById('resStudentDetails').innerText = `Student: ${name} | Date: ${date}`;
+
+      let totalScore = 0;
+      const tbody = document.getElementById('resultsTableBody');
+      tbody.innerHTML = "";
+
+      let qIndex = 1;
+
+      function addRow(secName, key, correctVal, isText = false) {
+        let userVal = "";
+        if (isText) userVal = (document.querySelector(`input[name="${key}"]`)?.value || "").trim().toLowerCase();
+        else if (key.startsWith("p2_")) userVal = document.querySelector(`select[name="${key}"]`)?.value || "";
+        else userVal = document.querySelector(`input[name="${key}"]:checked`)?.value || "";
+
+        let isCorrect = false;
+        if (isText) {
+          const u = userVal.replace(/\s+/g, ' ');
+          const t = correctVal.toLowerCase();
+          if (u === t || u.includes(t.replace('had been ', ''))) isCorrect = true;
+        } else {
+          isCorrect = (userVal.toUpperCase() === correctVal.toUpperCase());
+        }
+
+        if (isCorrect) totalScore++;
+
+        const tr = document.createElement('tr');
+        tr.className = isCorrect ? "bg-emerald-950/20" : "bg-rose-950/20";
+        tr.innerHTML = `
+          <td class="px-4 py-3 font-bold text-white">${qIndex}</td>
+          <td class="px-4 py-3 text-slate-400 font-medium">${secName}</td>
+          <td class="px-4 py-3 font-semibold ${isCorrect ? 'text-emerald-400' : 'text-rose-400'}">${userVal || '(Blank)'}</td>
+          <td class="px-4 py-3 text-slate-300 font-semibold">${correctVal}</td>
+          <td class="px-4 py-3 text-center font-bold text-sm">${isCorrect ? '✓' : '✗'}</td>
+        `;
+        tbody.appendChild(tr);
+        qIndex++;
+      }
+
+      for (let i = 1; i <= 5; i++) addRow("Part 1: Reading", `p1_q${i}`, ANSWER_KEY[`p1_q${i}`]);
+      for (let i = 1; i <= 5; i++) addRow("Part 2: Ads", `p2_q${i}`, ANSWER_KEY[`p2_q${i}`]);
+      for (let i = 1; i <= 5; i++) addRow("Part 3: Listening", `p3_q${i}`, ANSWER_KEY[`p3_q${i}`]);
+      for (let i = 1; i <= 20; i++) addRow("Part 4: Grammar MC", `p4_mc${i}`, ANSWER_KEY[`p4_mc${i}`]);
+      for (let i = 1; i <= 10; i++) addRow("Part 4: Grammar Open", `p4_op${i}`, ANSWER_KEY[`p4_op${i}`], true);
+
+      const pct = Math.round((totalScore / 45) * 100);
+      document.getElementById('scoreNumber').innerText = `${totalScore} / 45`;
+      document.getElementById('scorePercentage').innerText = `${pct}%`;
+
+      const badge = document.getElementById('scoreBadge');
+      if (pct >= 80) {
+        badge.innerText = "Passed (B1 Mastered) 🌟";
+        badge.className = "px-3 py-1 bg-emerald-500/20 text-emerald-300 font-bold text-xs rounded-full border border-emerald-500/30";
+      } else if (pct >= 60) {
+        badge.innerText = "Satisfactory 👍";
+        badge.className = "px-3 py-1 bg-amber-500/20 text-amber-300 font-bold text-xs rounded-full border border-amber-500/30";
+      } else {
+        badge.innerText = "Needs Review 📚";
+        badge.className = "px-3 py-1 bg-rose-500/20 text-rose-300 font-bold text-xs rounded-full border border-rose-500/30";
+      }
+    }
+
+    // Export Helpers
+    function generateCondensedString() {
+      const name = document.getElementById('studentName').value.trim() || 'Student';
+      const date = document.getElementById('testDate').value || new Date().toISOString().split('T')[0];
+      const score = document.getElementById('scoreNumber').innerText;
+      const pct = document.getElementById('scorePercentage').innerText;
+
+      let summary = `ENGLISH FAMILY TEST - RESULTS REPORT\n`;
+      summary += `Student: ${name} | Date: ${date} | Final Score: ${score} (${pct})\n\n`;
+
+      let qIdx = 1;
+      
+      // Reading
+      for (let i = 1; i <= 5; i++) {
+        const u = document.querySelector(`input[name="p1_q${i}"]:checked`)?.value || "-";
+        const c = ANSWER_KEY[`p1_q${i}`];
+        summary += `${qIdx}. ${u} ${u === c ? '✓' : '✗ (Ans: ' + c + ')'} | `;
+        qIdx++;
+      }
+      summary += `\n`;
+
+      // Ads
+      for (let i = 1; i <= 5; i++) {
+        const u = document.querySelector(`select[name="p2_q${i}"]`)?.value || "-";
+        const c = ANSWER_KEY[`p2_q${i}`];
+        summary += `${qIdx}. ${u} ${u === c ? '✓' : '✗ (Ans: ' + c + ')'} | `;
+        qIdx++;
+      }
+      summary += `\n`;
+
+      // Listening
+      for (let i = 1; i <= 5; i++) {
+        const u = document.querySelector(`input[name="p3_q${i}"]:checked`)?.value || "-";
+        const c = ANSWER_KEY[`p3_q${i}`];
+        summary += `${qIdx}. ${u} ${u === c ? '✓' : '✗ (Ans: ' + c + ')'} | `;
+        qIdx++;
+      }
+      summary += `\n`;
+
+      // Grammar MC
+      for (let i = 1; i <= 20; i++) {
+        const u = document.querySelector(`input[name="p4_mc${i}"]:checked`)?.value || "-";
+        const c = ANSWER_KEY[`p4_mc${i}`];
+        summary += `${qIdx}. ${u} ${u === c ? '✓' : '✗ (Ans: ' + c + ')'} | `;
+        if (i % 5 === 0) summary += `\n`;
+        qIdx++;
+      }
+
+      // Grammar Open
+      summary += `Grammar Open Answers:\n`;
+      for (let i = 1; i <= 10; i++) {
+        const u = (document.querySelector(`input[name="p4_op${i}"]`)?.value || "-").trim();
+        const c = ANSWER_KEY[`p4_op${i}`];
+        const isC = u.toLowerCase().includes(c.toLowerCase().replace('had been ', ''));
+        summary += `${qIdx}. "${u}" ${isC ? '✓' : '✗ (Ans: ' + c + ')'}\n`;
+        qIdx++;
+      }
+
+      return summary;
+    }
+
+    function sendEmailResult() {
+      const email = "Danielenglishclasses23@gmail.com";
+      const name = document.getElementById('studentName').value.trim() || 'Student';
+      const subject = encodeURIComponent(`B1 Exam Result - ${name}`);
+      const body = encodeURIComponent(generateCondensedString());
+
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+      showToast("Opened Mail client with formatted results!");
+    }
+
+    function copySummaryClipboard() {
+      const text = generateCondensedString();
+      const area = document.createElement('textarea');
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      try {
+        document.execCommand('copy');
+        showToast("✓ Results string copied to clipboard!");
+      } catch (err) {
+        showToast("Error copying to clipboard.");
+      }
+      document.body.removeChild(area);
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      toast.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>
